@@ -18,6 +18,7 @@ class SignalPlotItem(pg.PlotItem):
         self.blockSize = BLOCK_SIZE
         self.getViewBox().setMouseMode(pg.ViewBox.RectMode)
         self.showGrid(x=True, y=True)
+        self.hideButtons()
         self.lineItem = None
         if self.sig is not None:
             self.plotSig()
@@ -85,6 +86,7 @@ class MainWindow(QtWidgets.QWidget):
         self.fileNameInput = QtWidgets.QLineEdit()
         self.chooseFileButton = QtWidgets.QPushButton("Choose File")
         self.timeSlider = QtWidgets.QScrollBar(Qt.Orientation.Horizontal)
+        self.timeSlider.sliderReleased.connect(self.changeRange)
 
         self.fileNameInput.setReadOnly(True)
 
@@ -109,7 +111,8 @@ class MainWindow(QtWidgets.QWidget):
         vLayout.addLayout(self.controlBar)
 
     def resetView(self):
-        self.signalViewWidget.resetView()
+        viewStart = self.timeSlider.value()
+        self.signalViewWidget.resetView(viewStart)
 
     def changeFile(self):
         dlg = QtWidgets.QFileDialog(self)
@@ -127,10 +130,10 @@ class MainWindow(QtWidgets.QWidget):
             self.timeSlider.setMaximum(len(sig) * 2)
             self.timeSlider.setPageStep(BLOCK_SIZE)
             self.timeSlider.setSingleStep(1)
-            self.timeSlider.valueChanged.connect(self.changeRange)
             self.fileNameInput.setText(fp)
 
-    def changeRange(self, viewStart):
+    def changeRange(self):
+        viewStart = self.timeSlider.value()
         self.signalViewWidget.resetView(viewStart)
 
     def viewBack(self):
