@@ -8,5 +8,13 @@ https://user-images.githubusercontent.com/38179369/198836063-9306668f-f699-40f6-
 
 > Still working in progress.
 
-**Feel free to contribute!**
+## TODO
 
+- [x] Basic feature
+- [ ] I/Q ploting
+- [ ] Keyboard shortcuts
+- [ ] Save segments to a file
+- [ ] Spectrum ploting
+- [ ] Plugin system
+
+**Feel free to contribute!**
