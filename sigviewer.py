@@ -13,10 +13,11 @@ BLOCK_SIZE = int(0.5e6)
 
 class SignalPlotItem(pg.PlotItem):
     def __init__(self, sig):
-        pg.PlotItem.__init__(self)
+        pg.PlotItem.__init__(self, enableMenu=False)
         self.sig = sig
         self.blockSize = BLOCK_SIZE
         self.getViewBox().setMouseMode(pg.ViewBox.RectMode)
+        self.showGrid(x=True, y=True)
         self.lineItem = None
         if self.sig is not None:
             self.plotSig()
@@ -53,10 +54,11 @@ class SignalPlotItem(pg.PlotItem):
         self.clear()
         self.plotSig()
 
-    def resetView(self):
+    def resetView(self, viewStart=0):
         if self.sig is None:
             return
-        self.setXRange(0, self.blockSize)
+        self.setXRange(viewStart, self.blockSize)
+        self.setYRange(0, 1)
 
 
 class SignalViewWidget(pg.PlotWidget):
@@ -67,8 +69,8 @@ class SignalViewWidget(pg.PlotWidget):
     def setSigData(self, sig):
         self.plotItem.setSigData(sig)
 
-    def resetView(self):
-        self.plotItem.resetView()
+    def resetView(self, viewStart=0):
+        self.plotItem.resetView(viewStart)
 
 
 class MainWindow(QtWidgets.QWidget):
@@ -82,7 +84,7 @@ class MainWindow(QtWidgets.QWidget):
         self.signalViewWidget = SignalViewWidget()
         self.fileNameInput = QtWidgets.QLineEdit()
         self.chooseFileButton = QtWidgets.QPushButton("Choose File")
-        self.timeSlider = QtWidgets.QSlider(Qt.Orientation.Horizontal)
+        self.timeSlider = QtWidgets.QScrollBar(Qt.Orientation.Horizontal)
 
         self.fileNameInput.setReadOnly(True)
 
@@ -93,12 +95,17 @@ class MainWindow(QtWidgets.QWidget):
         fileChooseBar.addWidget(self.chooseFileButton)
 
         self.controlBar = QtWidgets.QHBoxLayout()
+
         resetViewButton = QtWidgets.QPushButton("Reset View")
+        backButton = QtWidgets.QPushButton("Back")
+
+        resetViewButton.clicked.connect(self.resetView)
         self.controlBar.addWidget(resetViewButton)
+        self.controlBar.addWidget(backButton)
 
         vLayout.addLayout(fileChooseBar)
         vLayout.addWidget(self.signalViewWidget)
-        # vLayout.addWidget(self.timeSlider)
+        vLayout.addWidget(self.timeSlider)
         vLayout.addLayout(self.controlBar)
 
     def resetView(self):
@@ -107,17 +114,27 @@ class MainWindow(QtWidgets.QWidget):
     def changeFile(self):
         dlg = QtWidgets.QFileDialog(self)
         dlg.setFileMode(QtWidgets.QFileDialog.FileMode.AnyFile)
-        dlg.exec()
-        filenames = dlg.selectedFiles()
-        fp = filenames[0]
-        self.signalViewWidget.setSigData(
-            np.memmap(
+        if dlg.exec():
+            filenames = dlg.selectedFiles()
+            fp = filenames[0]
+            sig = np.memmap(
                 fp,
                 dtype=np.complex64,
                 mode="r",
             )
-        )
-        self.fileNameInput.setText(fp)
+            self.signalViewWidget.setSigData(sig)
+            self.timeSlider.setMinimum(0)
+            self.timeSlider.setMaximum(len(sig) * 2)
+            self.timeSlider.setPageStep(BLOCK_SIZE)
+            self.timeSlider.setSingleStep(1)
+            self.timeSlider.valueChanged.connect(self.changeRange)
+            self.fileNameInput.setText(fp)
+
+    def changeRange(self, viewStart):
+        self.signalViewWidget.resetView(viewStart)
+
+    def viewBack(self):
+        pass
 
 
 if __name__ == "__main__":
