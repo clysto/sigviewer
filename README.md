@@ -11,7 +11,7 @@ https://user-images.githubusercontent.com/38179369/198836063-9306668f-f699-40f6-
 ## TODO
 
 - [x] Basic feature
-- [ ] I/Q ploting
+- [x] I/Q ploting
 - [ ] Keyboard shortcuts
 - [ ] Save segments to a file
 - [ ] Spectrum ploting

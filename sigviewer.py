@@ -14,6 +14,7 @@ BLOCK_SIZE = int(0.5e6)
 class SignalPlotItem(pg.PlotItem):
     def __init__(self, sig):
         pg.PlotItem.__init__(self, enableMenu=False)
+        self.sigTransform = np.abs
         self.sig = sig
         self.blockSize = BLOCK_SIZE
         self.getViewBox().setMouseMode(pg.ViewBox.RectMode)
@@ -30,7 +31,7 @@ class SignalPlotItem(pg.PlotItem):
         viewStart = max(0, int(math.floor(viewRange[0])))
         viewEnd = max(0, int(math.ceil(viewRange[1])))
         self.lineItem.setData(
-            self.time[viewStart:viewEnd], np.abs(self.sig[viewStart:viewEnd])
+            self.time[viewStart:viewEnd], self.sigTransform(self.sig[viewStart:viewEnd])
         )
 
     def plotSig(self):
@@ -46,7 +47,7 @@ class SignalPlotItem(pg.PlotItem):
         self.clear()
         self.lineItem = self.plot(
             self.time[: self.blockSize],
-            np.abs(self.sig[: self.blockSize]),
+            self.sigTransform(self.sig[: self.blockSize]),
             autoDownsample=True,
         )
 
@@ -59,7 +60,18 @@ class SignalPlotItem(pg.PlotItem):
         if self.sig is None:
             return
         self.setXRange(viewStart, self.blockSize)
-        self.setYRange(0, 1)
+        self.setYRange(-1, 1)
+
+    def changePlotType(self, type):
+        if type == "abs":
+            self.sigTransform = np.abs
+        elif type == "real":
+            self.sigTransform = np.real
+        elif type == "imag":
+            self.sigTransform = np.imag
+        if self.sig is not None:
+            self.clear()
+            self.plotSig()
 
 
 class SignalViewWidget(pg.PlotWidget):
@@ -72,6 +84,9 @@ class SignalViewWidget(pg.PlotWidget):
 
     def resetView(self, viewStart=0):
         self.plotItem.resetView(viewStart)
+
+    def changePlotType(self, type):
+        self.plotItem.changePlotType(type)
 
 
 class MainWindow(QtWidgets.QWidget):
@@ -96,6 +111,25 @@ class MainWindow(QtWidgets.QWidget):
         fileChooseBar.addWidget(self.fileNameInput)
         fileChooseBar.addWidget(self.chooseFileButton)
 
+        plotTypeBar = QtWidgets.QHBoxLayout()
+
+        typeSelect = QtWidgets.QComboBox()
+
+        self.plotTypes = ["abs", "real", "imag"]
+        for t in self.plotTypes:
+            typeSelect.addItem(t)
+
+        typeSelect.activated.connect(self.plotTypeChange)
+        plotTypeBar.addSpacerItem(
+            QtWidgets.QSpacerItem(
+                40,
+                20,
+                QtWidgets.QSizePolicy.Policy.Expanding,
+                QtWidgets.QSizePolicy.Policy.Minimum,
+            )
+        )
+        plotTypeBar.addWidget(typeSelect)
+
         self.controlBar = QtWidgets.QHBoxLayout()
 
         resetViewButton = QtWidgets.QPushButton("Reset View")
@@ -106,6 +140,7 @@ class MainWindow(QtWidgets.QWidget):
         self.controlBar.addWidget(backButton)
 
         vLayout.addLayout(fileChooseBar)
+        vLayout.addLayout(plotTypeBar)
         vLayout.addWidget(self.signalViewWidget)
         vLayout.addWidget(self.timeSlider)
         vLayout.addLayout(self.controlBar)
@@ -135,6 +170,10 @@ class MainWindow(QtWidgets.QWidget):
     def changeRange(self):
         viewStart = self.timeSlider.value()
         self.signalViewWidget.resetView(viewStart)
+
+    def plotTypeChange(self, i):
+        print(self.plotTypes[i])
+        self.signalViewWidget.changePlotType(self.plotTypes[i])
 
     def viewBack(self):
         pass
