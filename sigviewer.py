@@ -5,8 +5,8 @@ import sys
 
 import numpy as np
 import pyqtgraph as pg
-from PyQt5 import QtWidgets
-from PyQt5.QtCore import Qt
+from PySide6 import QtWidgets
+from PySide6.QtCore import Qt
 
 BLOCK_SIZE = int(0.5e6)
 
