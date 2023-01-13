@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1122</width>
-    <height>618</height>
+    <width>1000</width>
+    <height>600</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Sigviewer</string>
@@ -18,7 +24,11 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QLineEdit" name="filePath"/>
+       <widget class="QLineEdit" name="filePath">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="chooseFileButton">
@@ -30,70 +40,205 @@
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+       <widget class="QGroupBox" name="groupBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
-        <property name="sizeHint" stdset="0">
+        <property name="minimumSize">
          <size>
-          <width>40</width>
-          <height>20</height>
+          <width>240</width>
+          <height>0</height>
          </size>
         </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QComboBox" name="viewTypeSelect"/>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="SignalViewWidget" name="widget" native="true">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <item>
-       <widget class="QPushButton" name="resetViewButton">
-        <property name="text">
-         <string>Reset View</string>
+        <property name="title">
+         <string>Options</string>
         </property>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>sample rate (Hz)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="sampleRateLineEdit">
+           <property name="text">
+            <string>1</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDialogButtonBox" name="buttonBox">
+           <property name="standardButtons">
+            <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="resetViewButton">
+           <property name="text">
+            <string>Reset View</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="fftButton">
+           <property name="text">
+            <string>FFT</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="backButton">
-        <property name="text">
-         <string>Back</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="fftButton">
-        <property name="text">
-         <string>FFT</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBoxI">
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="minimumSize">
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(165, 29, 45);</string>
+            </property>
+            <property name="text">
+             <string>I</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBoxQ">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="minimumSize">
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(26, 95, 180);</string>
+            </property>
+            <property name="text">
+             <string>Q</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBoxMag">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>16</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(38, 162, 105);</string>
+            </property>
+            <property name="text">
+             <string> Mag </string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="SignalViewWidget" name="signalView" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>
@@ -104,14 +249,15 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1122</width>
+     <width>1000</width>
      <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
-     <string>Settings</string>
+     <string>File</string>
     </property>
+    <addaction name="actionOpen"/>
     <addaction name="actionPreferences"/>
    </widget>
    <addaction name="menuSettings"/>
@@ -121,6 +267,17 @@
    <property name="text">
     <string>Preferences</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+,</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
   </action>
  </widget>
  <customwidgets>
@@ -129,8 +286,149 @@
    <extends>QWidget</extends>
    <header>signalviewwidget.h</header>
    <container>1</container>
+   <slots>
+    <slot>resetView()</slot>
+    <slot>plotReal(bool)</slot>
+    <slot>plotImag(bool)</slot>
+    <slot>plotAbs(bool)</slot>
+    <slot>showFFT()</slot>
+   </slots>
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>chooseFileButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>changeFile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>915</x>
+     <y>52</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>999</x>
+     <y>37</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>resetViewButton</sender>
+   <signal>clicked()</signal>
+   <receiver>signalView</receiver>
+   <slot>resetView()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>98</x>
+     <y>503</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>713</x>
+     <y>396</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>menubar</sender>
+   <signal>triggered(QAction*)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>handleMenuAction(QAction*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>29</x>
+     <y>12</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1423</x>
+     <y>78</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxI</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>signalView</receiver>
+   <slot>plotReal(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>861</x>
+     <y>85</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>779</x>
+     <y>233</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxQ</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>signalView</receiver>
+   <slot>plotImag(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>903</x>
+     <y>85</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>876</x>
+     <y>211</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxMag</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>signalView</receiver>
+   <slot>plotAbs(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>945</x>
+     <y>85</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>943</x>
+     <y>227</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fftButton</sender>
+   <signal>clicked()</signal>
+   <receiver>signalView</receiver>
+   <slot>showFFT()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>182</x>
+     <y>538</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>506</x>
+     <y>507</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>changeOption()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>197</x>
+     <y>171</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>731</x>
+     <y>703</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>changeFile()</slot>
+  <slot>handleMenuAction(QAction*)</slot>
+  <slot>changeOption()</slot>
+ </slots>
 </ui>

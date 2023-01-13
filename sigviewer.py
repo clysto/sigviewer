@@ -8,146 +8,25 @@ import pyqtgraph as pg
 from PySide6 import QtWidgets
 from PySide6.QtCore import Qt
 
+
+from signaldata import SignalData
+from ui.mainwindow import Ui_MainWindow
+from ui.preferencewindow import Ui_Dialog
+
 BLOCK_SIZE = int(0.5e6)
 
 
-class SignalPlotItem(pg.PlotItem):
-    def __init__(self, sig):
-        pg.PlotItem.__init__(self, enableMenu=False)
-        self.sigTransform = np.abs
-        self.sig = sig
-        self.blockSize = BLOCK_SIZE
-        self.getViewBox().setMouseMode(pg.ViewBox.RectMode)
-        self.showGrid(x=True, y=True)
-        self.hideButtons()
-        self.lineItem = None
-        if self.sig is not None:
-            self.plotSig()
-        self.sigXRangeChanged.connect(self.onRangeChange)
-
-    def onRangeChange(self, _, viewRange):
-        if self.sig is None or self.lineItem is None:
-            return
-        viewStart = max(0, int(math.floor(viewRange[0])))
-        viewEnd = max(0, int(math.ceil(viewRange[1])))
-        self.lineItem.setData(
-            self.time[viewStart:viewEnd], self.sigTransform(self.sig[viewStart:viewEnd])
-        )
-
-    def plotSig(self):
-        self.time = np.arange(len(self.sig))
-        self.setLimits(
-            yMin=-2,
-            yMax=2,
-            xMin=-self.blockSize,
-            xMax=len(self.sig) + self.blockSize,
-            maxXRange=self.blockSize,
-        )
-        self.resetView()
-        self.clear()
-        self.lineItem = self.plot(
-            self.time[: self.blockSize],
-            self.sigTransform(self.sig[: self.blockSize]),
-            autoDownsample=True,
-        )
-
-    def setSigData(self, sig):
-        self.sig = sig
-        self.clear()
-        self.plotSig()
-
-    def resetView(self, viewStart=0):
-        if self.sig is None:
-            return
-        self.setXRange(viewStart, self.blockSize)
-        self.setYRange(-1, 1)
-
-    def changePlotType(self, type):
-        if type == "abs":
-            self.sigTransform = np.abs
-        elif type == "real":
-            self.sigTransform = np.real
-        elif type == "imag":
-            self.sigTransform = np.imag
-        if self.sig is not None:
-            self.clear()
-            self.plotSig()
+class PreferenceWindow(QtWidgets.QDialog, Ui_Dialog):
+    def __init__(self, parent):
+        QtWidgets.QDialog.__init__(self, parent)
+        self.setupUi(self)
 
 
-class SignalViewWidget(pg.PlotWidget):
-    def __init__(self, sig=None):
-        self.plotItem = SignalPlotItem(sig)
-        pg.PlotWidget.__init__(self, plotItem=self.plotItem)
-
-    def setSigData(self, sig):
-        self.plotItem.setSigData(sig)
-
-    def resetView(self, viewStart=0):
-        self.plotItem.resetView(viewStart)
-
-    def changePlotType(self, type):
-        self.plotItem.changePlotType(type)
-
-
-class MainWindow(QtWidgets.QWidget):
+class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
-        QtWidgets.QWidget.__init__(self)
-        self.setWindowTitle("SigViewer")
-
-        vLayout = QtWidgets.QVBoxLayout()
-        self.setLayout(vLayout)
-
-        self.signalViewWidget = SignalViewWidget()
-        self.fileNameInput = QtWidgets.QLineEdit()
-        self.chooseFileButton = QtWidgets.QPushButton("Choose File")
-        self.timeSlider = QtWidgets.QScrollBar(Qt.Orientation.Horizontal)
-        self.timeSlider.sliderReleased.connect(self.changeRange)
-
-        self.fileNameInput.setReadOnly(True)
-
-        self.chooseFileButton.clicked.connect(self.changeFile)
-
-        fileChooseBar = QtWidgets.QHBoxLayout()
-        fileChooseBar.addWidget(self.fileNameInput)
-        fileChooseBar.addWidget(self.chooseFileButton)
-
-        plotTypeBar = QtWidgets.QHBoxLayout()
-
-        typeSelect = QtWidgets.QComboBox()
-
-        self.plotTypes = ["abs", "real", "imag"]
-        for t in self.plotTypes:
-            typeSelect.addItem(t)
-
-        typeSelect.activated.connect(self.plotTypeChange)
-        plotTypeBar.addSpacerItem(
-            QtWidgets.QSpacerItem(
-                40,
-                20,
-                QtWidgets.QSizePolicy.Policy.Expanding,
-                QtWidgets.QSizePolicy.Policy.Minimum,
-            )
-        )
-        plotTypeBar.addWidget(typeSelect)
-
-        self.controlBar = QtWidgets.QHBoxLayout()
-
-        resetViewButton = QtWidgets.QPushButton("Reset View")
-        backButton = QtWidgets.QPushButton("Back")
-
-        resetViewButton.clicked.connect(self.resetView)
-        self.controlBar.addWidget(resetViewButton)
-        self.controlBar.addWidget(backButton)
-
-        vLayout.addLayout(fileChooseBar)
-        vLayout.addLayout(plotTypeBar)
-        vLayout.addWidget(self.signalViewWidget)
-        vLayout.addWidget(self.timeSlider)
-        vLayout.addLayout(self.controlBar)
-
-    def resetView(self):
-        viewStart = self.timeSlider.value()
-        self.signalViewWidget.resetView(viewStart)
+        QtWidgets.QMainWindow.__init__(self)
+        self.setupUi(self)
+        self.preferenceWindow = PreferenceWindow(self)
 
     def changeFile(self):
         dlg = QtWidgets.QFileDialog(self)
@@ -155,34 +34,27 @@ class MainWindow(QtWidgets.QWidget):
         if dlg.exec():
             filenames = dlg.selectedFiles()
             fp = filenames[0]
-            sig = np.memmap(
+            self.filePath.setText(fp)
+            data = np.memmap(
                 fp,
                 dtype=np.complex64,
                 mode="r",
             )
-            self.signalViewWidget.setSigData(sig)
-            self.timeSlider.setMinimum(0)
-            self.timeSlider.setMaximum(len(sig) * 2)
-            self.timeSlider.setPageStep(BLOCK_SIZE)
-            self.timeSlider.setSingleStep(1)
-            self.fileNameInput.setText(fp)
+            self.signalView.setSigData(SignalData(data))
 
-    def changeRange(self):
-        viewStart = self.timeSlider.value()
-        self.signalViewWidget.resetView(viewStart)
+    def handleMenuAction(self, action):
+        if action == self.actionPreferences:
+            self.preferenceWindow.show()
+        elif action == self.actionOpen:
+            self.changeFile()
 
-    def plotTypeChange(self, i):
-        print(self.plotTypes[i])
-        self.signalViewWidget.changePlotType(self.plotTypes[i])
-
-    def viewBack(self):
-        pass
+    def changeOption(self):
+        sampleRate = int(self.sampleRateLineEdit.text())
+        self.signalView.setSampleRate(sampleRate)
 
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-
-    window = MainWindow()
-    window.show()
-
+    mainWindow = MainWindow()
+    mainWindow.show()
     app.exec()
