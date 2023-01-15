@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'mainwindow.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.4.1
+## Created by: Qt User Interface Compiler version 6.4.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -91,6 +91,11 @@ class Ui_MainWindow(object):
         self.resetViewButton.setObjectName(u"resetViewButton")
 
         self.verticalLayout_3.addWidget(self.resetViewButton)
+
+        self.pushButton = QPushButton(self.groupBox)
+        self.pushButton.setObjectName(u"pushButton")
+
+        self.verticalLayout_3.addWidget(self.pushButton)
 
         self.fftButton = QPushButton(self.groupBox)
         self.fftButton.setObjectName(u"fftButton")
@@ -195,6 +200,7 @@ class Ui_MainWindow(object):
         self.checkBoxMag.toggled.connect(self.signalView.plotAbs)
         self.fftButton.clicked.connect(self.signalView.showFFT)
         self.buttonBox.accepted.connect(MainWindow.changeOption)
+        self.pushButton.clicked.connect(MainWindow.exportToFile)
 
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
@@ -211,9 +217,10 @@ class Ui_MainWindow(object):
 #endif // QT_CONFIG(shortcut)
         self.chooseFileButton.setText(QCoreApplication.translate("MainWindow", u"Choose File", None))
         self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Options", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"sample rate (Hz)", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"Sample rate (Hz)", None))
         self.sampleRateLineEdit.setText(QCoreApplication.translate("MainWindow", u"1", None))
         self.resetViewButton.setText(QCoreApplication.translate("MainWindow", u"Reset View", None))
+        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Export to File", None))
         self.fftButton.setText(QCoreApplication.translate("MainWindow", u"FFT", None))
         self.checkBoxI.setText("")
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"I", None))

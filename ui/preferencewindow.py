@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'preferencewindow.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.4.1
+## Created by: Qt User Interface Compiler version 6.4.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -40,6 +40,16 @@ class Ui_Dialog(object):
 
         self.verticalLayout_2.addWidget(self.lineEdit)
 
+        self.label_2 = QLabel(self.groupBox)
+        self.label_2.setObjectName(u"label_2")
+
+        self.verticalLayout_2.addWidget(self.label_2)
+
+        self.lineEdit_2 = QLineEdit(self.groupBox)
+        self.lineEdit_2.setObjectName(u"lineEdit_2")
+
+        self.verticalLayout_2.addWidget(self.lineEdit_2)
+
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_2.addItem(self.verticalSpacer)
@@ -65,7 +75,8 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Preference", None))
         self.groupBox.setTitle(QCoreApplication.translate("Dialog", u"General", None))
-        self.label.setText(QCoreApplication.translate("Dialog", u"block size", None))
+        self.label.setText(QCoreApplication.translate("Dialog", u"Block size", None))
         self.lineEdit.setText(QCoreApplication.translate("Dialog", u"500000", None))
+        self.label_2.setText(QCoreApplication.translate("Dialog", u"Default sample rate (Hz)", None))
     # retranslateUi
 

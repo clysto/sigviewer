@@ -62,7 +62,7 @@
          <item>
           <widget class="QLabel" name="label">
            <property name="text">
-            <string>sample rate (Hz)</string>
+            <string>Sample rate (Hz)</string>
            </property>
           </widget>
          </item>
@@ -97,6 +97,13 @@
           <widget class="QPushButton" name="resetViewButton">
            <property name="text">
             <string>Reset View</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton">
+           <property name="text">
+            <string>Export to File</string>
            </property>
           </widget>
          </item>
@@ -320,8 +327,8 @@
    <slot>resetView()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>98</x>
-     <y>503</y>
+     <x>120</x>
+     <y>490</y>
     </hint>
     <hint type="destinationlabel">
      <x>713</x>
@@ -425,10 +432,27 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>exportToFile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>73</x>
+     <y>504</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>567</x>
+     <y>801</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>changeFile()</slot>
   <slot>handleMenuAction(QAction*)</slot>
   <slot>changeOption()</slot>
+  <slot>exportToFile()</slot>
  </slots>
 </ui>

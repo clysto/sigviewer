@@ -2,7 +2,7 @@ UIFILES = $(wildcard ui/*.ui)
 PYFILES = $(patsubst %.ui,%.py,$(UIFILES))
 
 all:
-	nuitka3 --standalone --disable-console --plugin-enable=pyside6 sigviewer.py
+	nuitka --standalone --disable-console --plugin-enable=pyside6 --plugin-enable=numpy sigviewer.py
 
 ui: $(PYFILES)
 

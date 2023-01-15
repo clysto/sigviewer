@@ -1,9 +1,10 @@
 import numpy as np
-from ui.fftwindow import Ui_Dialog
 import pyqtgraph as pg
 from PySide6 import QtWidgets
-from scipy import signal
 from PySide6.QtGui import QColor
+from scipy import signal
+
+from ui.fftwindow import Ui_Dialog
 
 
 class FFTWindow(QtWidgets.QDialog, Ui_Dialog):

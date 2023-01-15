@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-import math
 import sys
+from config import config
 
 import numpy as np
 import pyqtgraph as pg
@@ -12,8 +12,6 @@ from PySide6.QtCore import Qt
 from signaldata import SignalData
 from ui.mainwindow import Ui_MainWindow
 from ui.preferencewindow import Ui_Dialog
-
-BLOCK_SIZE = int(0.5e6)
 
 
 class PreferenceWindow(QtWidgets.QDialog, Ui_Dialog):
@@ -27,6 +25,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         QtWidgets.QMainWindow.__init__(self)
         self.setupUi(self)
         self.preferenceWindow = PreferenceWindow(self)
+        self.sampleRateLineEdit.setText(str(config["defaultSampleRate"]))
 
     def changeFile(self):
         dlg = QtWidgets.QFileDialog(self)
@@ -51,6 +50,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def changeOption(self):
         sampleRate = int(self.sampleRateLineEdit.text())
         self.signalView.setSampleRate(sampleRate)
+
+    def exportToFile(self):
+        if self.signalView.data is None:
+            return
+        filename = QtWidgets.QFileDialog.getSaveFileName(self)
+        if filename:
+            viewStart, viewEnd = self.signalView.plotItem.getXDataRange()
+            data = self.signalView.data[viewStart:viewEnd]
+            data.tofile(filename[0])
 
 
 if __name__ == "__main__":

@@ -23,7 +23,7 @@
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>block size</string>
+         <string>Block size</string>
         </property>
        </widget>
       </item>
@@ -33,6 +33,16 @@
          <string>500000</string>
         </property>
        </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Default sample rate (Hz)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_2"/>
       </item>
       <item>
        <spacer name="verticalSpacer">

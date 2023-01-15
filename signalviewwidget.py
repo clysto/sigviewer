@@ -1,18 +1,10 @@
 import math
 import numpy as np
 import pyqtgraph as pg
-from PySide6.QtGui import QColor
 from fftwindow import FFTWindow
 
 from signaldata import SignalData
-
-
-BLOCK_SIZE = int(0.5e6)
-LINE_COLORS = {
-    "real": QColor(165, 29, 45),
-    "imag": QColor(26, 95, 180),
-    "abs": QColor(38, 162, 105),
-}
+from config import config
 
 
 class SignalPlotItem(pg.PlotItem):
@@ -21,7 +13,7 @@ class SignalPlotItem(pg.PlotItem):
         self.data: SignalData = None
         self.getViewBox().setMouseMode(pg.ViewBox.RectMode)
         self.showGrid(x=True, y=True)
-        self.hideButtons()
+        # self.hideButtons()
         self.sigXRangeChanged.connect(self.onRangeChange)
         self.realLineItem = None
         self.imagLineItem = None
@@ -50,16 +42,16 @@ class SignalPlotItem(pg.PlotItem):
         self.resetView()
         self.clear()
         self.realLineItem = self.plot(
-            self.time[:BLOCK_SIZE],
-            self.data.real[:BLOCK_SIZE],
+            self.time[: config["blockSize"]],
+            self.data.real[: config["blockSize"]],
             autoDownsample=True,
-            pen=pg.mkPen(color=LINE_COLORS["real"]),
+            pen=pg.mkPen(color=config["lineColors"]["real"]),
         )
         self.imagLineItem = self.plot(
-            self.time[:BLOCK_SIZE],
-            self.data.imag[:BLOCK_SIZE],
+            self.time[: config["blockSize"]],
+            self.data.imag[: config["blockSize"]],
             autoDownsample=True,
-            pen=pg.mkPen(color=LINE_COLORS["imag"]),
+            pen=pg.mkPen(color=config["lineColors"]["imag"]),
         )
         # set auto range
         self.autoRange()
@@ -68,9 +60,9 @@ class SignalPlotItem(pg.PlotItem):
         self.data = data
         self.time = np.arange(len(self.data))
         self.setLimits(
-            xMin=-BLOCK_SIZE,
-            xMax=len(self.data) + BLOCK_SIZE,
-            maxXRange=BLOCK_SIZE,
+            xMin=-config["blockSize"],
+            xMax=len(self.data) + config["blockSize"],
+            maxXRange=config["blockSize"],
         )
         self.clear()
         self.plotSig()
@@ -78,7 +70,7 @@ class SignalPlotItem(pg.PlotItem):
     def resetView(self, viewStart=0):
         if self.data is None:
             return
-        self.setXRange(viewStart, BLOCK_SIZE)
+        self.setXRange(viewStart, config["blockSize"])
         self.autoRange()
 
     def toggleReal(self, r):
@@ -90,7 +82,7 @@ class SignalPlotItem(pg.PlotItem):
                 self.time[viewStart:viewEnd],
                 self.data.real[viewStart:viewEnd],
                 autoDownsample=True,
-                pen=pg.mkPen(color=LINE_COLORS["real"]),
+                pen=pg.mkPen(color=config["lineColors"]["real"]),
             )
         else:
             self.removeItem(self.realLineItem)
@@ -109,7 +101,7 @@ class SignalPlotItem(pg.PlotItem):
                 self.time[viewStart:viewEnd],
                 self.data.imag[viewStart:viewEnd],
                 autoDownsample=True,
-                pen=pg.mkPen(color=LINE_COLORS["imag"]),
+                pen=pg.mkPen(color=config["lineColors"]["imag"]),
             )
         else:
             self.removeItem(self.imagLineItem)
@@ -124,7 +116,7 @@ class SignalPlotItem(pg.PlotItem):
                 self.time[viewStart:viewEnd],
                 self.data.abs[viewStart:viewEnd],
                 autoDownsample=True,
-                pen=pg.mkPen(color=LINE_COLORS["abs"]),
+                pen=pg.mkPen(color=config["lineColors"]["abs"]),
             )
         else:
             self.removeItem(self.absLineItem)
