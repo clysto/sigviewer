@@ -1,10 +1,11 @@
 import math
+
 import numpy as np
 import pyqtgraph as pg
-from fftwindow import FFTWindow
 
-from signaldata import SignalData
 from config import config
+from fftwindow import FFTWindow
+from signaldata import SignalData
 
 
 class SignalPlotItem(pg.PlotItem):

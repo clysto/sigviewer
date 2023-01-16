@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
 
 import sys
-from config import config
 
 import numpy as np
-import pyqtgraph as pg
 from PySide6 import QtWidgets
-from PySide6.QtCore import Qt
 
-
+from config import config
 from signaldata import SignalData
 from ui.mainwindow import Ui_MainWindow
 from ui.preferencewindow import Ui_Dialog
