@@ -118,134 +118,7 @@
        </widget>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBoxI">
-            <property name="autoFillBackground">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_2">
-            <property name="minimumSize">
-             <size>
-              <width>16</width>
-              <height>16</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16</width>
-              <height>16</height>
-             </size>
-            </property>
-            <property name="autoFillBackground">
-             <bool>false</bool>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(165, 29, 45);</string>
-            </property>
-            <property name="text">
-             <string>I</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBoxQ">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_3">
-            <property name="minimumSize">
-             <size>
-              <width>16</width>
-              <height>16</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16</width>
-              <height>16</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(26, 95, 180);</string>
-            </property>
-            <property name="text">
-             <string>Q</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBoxMag">
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_4">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>16</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(38, 162, 105);</string>
-            </property>
-            <property name="text">
-             <string> Mag </string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="SignalViewWidget" name="signalView" native="true">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="SignalViewWidget" name="signalView" native="true"/>
       </item>
      </layout>
     </item>
@@ -291,7 +164,7 @@
   <customwidget>
    <class>SignalViewWidget</class>
    <extends>QWidget</extends>
-   <header>signalviewwidget.h</header>
+   <header>widgets/signalviewwidget.h</header>
    <container>1</container>
    <slots>
     <slot>resetView()</slot>
@@ -321,22 +194,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>resetViewButton</sender>
-   <signal>clicked()</signal>
-   <receiver>signalView</receiver>
-   <slot>resetView()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>120</x>
-     <y>490</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>713</x>
-     <y>396</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>menubar</sender>
    <signal>triggered(QAction*)</signal>
    <receiver>MainWindow</receiver>
@@ -349,70 +206,6 @@
     <hint type="destinationlabel">
      <x>1423</x>
      <y>78</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkBoxI</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>signalView</receiver>
-   <slot>plotReal(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>861</x>
-     <y>85</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>779</x>
-     <y>233</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkBoxQ</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>signalView</receiver>
-   <slot>plotImag(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>903</x>
-     <y>85</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>876</x>
-     <y>211</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkBoxMag</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>signalView</receiver>
-   <slot>plotAbs(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>945</x>
-     <y>85</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>943</x>
-     <y>227</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>fftButton</sender>
-   <signal>clicked()</signal>
-   <receiver>signalView</receiver>
-   <slot>showFFT()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>182</x>
-     <y>538</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>506</x>
-     <y>507</y>
     </hint>
    </hints>
   </connection>
@@ -445,6 +238,38 @@
     <hint type="destinationlabel">
      <x>567</x>
      <y>801</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>resetViewButton</sender>
+   <signal>clicked()</signal>
+   <receiver>signalView</receiver>
+   <slot>resetView()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>140</x>
+     <y>475</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>668</x>
+     <y>451</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fftButton</sender>
+   <signal>clicked()</signal>
+   <receiver>signalView</receiver>
+   <slot>showFFT()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>160</x>
+     <y>539</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>553</x>
+     <y>461</y>
     </hint>
    </hints>
   </connection>

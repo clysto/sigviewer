@@ -45,8 +45,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.changeFile()
 
     def changeOption(self):
-        sampleRate = int(self.sampleRateLineEdit.text())
+        sampleRate = eval(self.sampleRateLineEdit.text())
+        sampleRate = int(sampleRate)
         self.signalView.setSampleRate(sampleRate)
+        self.statusbar.showMessage("Options changed.", 3000)
 
     def exportToFile(self):
         if self.signalView.data is None:

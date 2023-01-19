@@ -16,13 +16,12 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QAbstractButton, QApplication, QCheckBox, QDialogButtonBox,
-    QGroupBox, QHBoxLayout, QLabel, QLineEdit,
-    QMainWindow, QMenu, QMenuBar, QPushButton,
-    QSizePolicy, QSpacerItem, QStatusBar, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QAbstractButton, QApplication, QDialogButtonBox, QGroupBox,
+    QHBoxLayout, QLabel, QLineEdit, QMainWindow,
+    QMenu, QMenuBar, QPushButton, QSizePolicy,
+    QSpacerItem, QStatusBar, QVBoxLayout, QWidget)
 
-from signalviewwidget import SignalViewWidget
+from widgets.signalviewwidget import SignalViewWidget
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -105,73 +104,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_4.addWidget(self.groupBox)
 
-        self.verticalLayout_2 = QVBoxLayout()
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_2.addItem(self.horizontalSpacer)
-
-        self.checkBoxI = QCheckBox(self.centralwidget)
-        self.checkBoxI.setObjectName(u"checkBoxI")
-        self.checkBoxI.setAutoFillBackground(False)
-        self.checkBoxI.setChecked(True)
-
-        self.horizontalLayout_2.addWidget(self.checkBoxI)
-
-        self.label_2 = QLabel(self.centralwidget)
-        self.label_2.setObjectName(u"label_2")
-        self.label_2.setMinimumSize(QSize(16, 16))
-        self.label_2.setMaximumSize(QSize(16, 16))
-        self.label_2.setAutoFillBackground(False)
-        self.label_2.setStyleSheet(u"background-color: rgb(165, 29, 45);")
-        self.label_2.setAlignment(Qt.AlignCenter)
-
-        self.horizontalLayout_2.addWidget(self.label_2)
-
-        self.checkBoxQ = QCheckBox(self.centralwidget)
-        self.checkBoxQ.setObjectName(u"checkBoxQ")
-        self.checkBoxQ.setChecked(True)
-
-        self.horizontalLayout_2.addWidget(self.checkBoxQ)
-
-        self.label_3 = QLabel(self.centralwidget)
-        self.label_3.setObjectName(u"label_3")
-        self.label_3.setMinimumSize(QSize(16, 16))
-        self.label_3.setMaximumSize(QSize(16, 16))
-        self.label_3.setStyleSheet(u"background-color: rgb(26, 95, 180);")
-        self.label_3.setAlignment(Qt.AlignCenter)
-
-        self.horizontalLayout_2.addWidget(self.label_3)
-
-        self.checkBoxMag = QCheckBox(self.centralwidget)
-        self.checkBoxMag.setObjectName(u"checkBoxMag")
-
-        self.horizontalLayout_2.addWidget(self.checkBoxMag)
-
-        self.label_4 = QLabel(self.centralwidget)
-        self.label_4.setObjectName(u"label_4")
-        self.label_4.setMinimumSize(QSize(0, 16))
-        self.label_4.setStyleSheet(u"background-color: rgb(38, 162, 105);")
-
-        self.horizontalLayout_2.addWidget(self.label_4)
-
-
-        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
-
         self.signalView = SignalViewWidget(self.centralwidget)
         self.signalView.setObjectName(u"signalView")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.signalView.sizePolicy().hasHeightForWidth())
-        self.signalView.setSizePolicy(sizePolicy1)
 
-        self.verticalLayout_2.addWidget(self.signalView)
-
-
-        self.horizontalLayout_4.addLayout(self.verticalLayout_2)
+        self.horizontalLayout_4.addWidget(self.signalView)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout_4)
@@ -193,14 +129,11 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.chooseFileButton.clicked.connect(MainWindow.changeFile)
-        self.resetViewButton.clicked.connect(self.signalView.resetView)
         self.menubar.triggered.connect(MainWindow.handleMenuAction)
-        self.checkBoxI.toggled.connect(self.signalView.plotReal)
-        self.checkBoxQ.toggled.connect(self.signalView.plotImag)
-        self.checkBoxMag.toggled.connect(self.signalView.plotAbs)
-        self.fftButton.clicked.connect(self.signalView.showFFT)
         self.buttonBox.accepted.connect(MainWindow.changeOption)
         self.pushButton.clicked.connect(MainWindow.exportToFile)
+        self.resetViewButton.clicked.connect(self.signalView.resetView)
+        self.fftButton.clicked.connect(self.signalView.showFFT)
 
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
@@ -222,12 +155,6 @@ class Ui_MainWindow(object):
         self.resetViewButton.setText(QCoreApplication.translate("MainWindow", u"Reset View", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Export to File", None))
         self.fftButton.setText(QCoreApplication.translate("MainWindow", u"FFT", None))
-        self.checkBoxI.setText("")
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"I", None))
-        self.checkBoxQ.setText("")
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Q", None))
-        self.checkBoxMag.setText("")
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u" Mag ", None))
         self.menuSettings.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
     # retranslateUi
 
