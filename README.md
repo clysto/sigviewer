@@ -4,7 +4,8 @@ A Qt-based signal (especially the IQ signal collected from any SDR)
 viewing/editing tool. Suitable for large datasets (> 200 Mb).
 **Low memory usage and fast speed even with large data volumes**.
 
-https://user-images.githubusercontent.com/38179369/198836063-9306668f-f699-40f6-b11a-1884e44b7bd8.mp4
+https://user-images.githubusercontent.com/38179369/213859428-c8b4c2b6-b6f6-4e70-93dd-592f545a09ff.mp4
+
 
 > Still working in progress.
 
@@ -13,8 +14,8 @@ https://user-images.githubusercontent.com/38179369/198836063-9306668f-f699-40f6-
 - [x] Basic feature
 - [x] I/Q ploting
 - [ ] Keyboard shortcuts
-- [ ] Save segments to a file
-- [ ] Spectrum ploting
+- [x] Save segments to a file
+- [x] Spectrum ploting
 - [ ] Plugin system
 
 **Feel free to contribute!**
